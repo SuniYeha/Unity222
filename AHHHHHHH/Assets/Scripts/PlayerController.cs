@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody GGravity;
     Camera playerCam;
-    Transform weaponSlot;
+    public Transform weaponSlot;
 
     Vector2 camRotation;
 
@@ -16,25 +16,30 @@ public class PlayerController : MonoBehaviour
     public int Heal = 1;
 
     [Header("Weapon Stats")]
+    public GameObject bullet;
     public int weaponID = -1;
     public int fireMode = 0;
+    public float bulletLifespan = .5f;
+    public float BulletSpeed = 1500f;
     public float fireRate = .5f;
     public float maxAmmo = 10;
-    public float currentAmmo = 0;
+    public float currentAmmo = 10;
     public float reloadAmt = 5;
-    public float currentClip = 0;
-    public float clipSize = 0;
     public bool canfire = true;
 
     [Header("Movement Settings")]
-    public float speed = 10.0f;
+    public float speed = 5.0f;
     public float sprintMultiplier = 1.5f;
     public bool sprintMode = false;
     public float jumpHeight = 5.0f;
     public float groundDetectDistance = 1f;
+    public float stamina = 100f;
+    public float maxstamina = 100f;
+    public bool cansprint = true;
+    public float sprintCD = 2f;
 
     [Header("User Settings")]
-    public bool sprintToggleOption = false;
+    public bool sprintToggleOption = true;
     public float mouseSensitivity = 2.0f;
     public float Xsensitivity = 2f;
     public float Ysensitivity = 2f;
@@ -64,24 +69,38 @@ public class PlayerController : MonoBehaviour
         playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
         transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
 
-        if (Input.GetMouseButton(0) && canfire && currentClip > 0)
+        if (weaponID >= 0 && Input.GetMouseButton(0) && canfire && currentAmmo > 0)
         {
-           canfire = false;
-            currentClip--;
-            StartCoroutine("cooldownFire");
+            GameObject b = Instantiate(bullet, weaponSlot.position, weaponSlot.rotation);
+            b.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * BulletSpeed);
+            Destroy(b,bulletLifespan);
+            canfire = false;
+            currentAmmo--;
+            StartCoroutine("Cooldown");
+            if (currentAmmo <= 0)
+            {
+                print(currentAmmo);
+            }
         }
 
-        if (Input.GetKey(KeyCode.R))
-            reloadClip();
 
         Vector3 temp = GGravity.velocity;
 
         float verticalMove = Input.GetAxisRaw("Vertical");
         float horizontalMove = Input.GetAxisRaw("Horizontal");
 
+
+        if (stamina <= 0)
+        {
+            sprintMode = false;
+            cansprint = false;
+        }
+        if (stamina > maxstamina)
+            stamina = maxstamina;
+
         if (!sprintToggleOption)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && cansprint)
                 sprintMode = true;
             if (Input.GetKeyUp(KeyCode.LeftShift))
                 sprintMode = false;
@@ -89,18 +108,23 @@ public class PlayerController : MonoBehaviour
 
         if (sprintToggleOption)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && verticalMove > 0)
-                sprintMode |= true;
-            if (verticalMove <= 0)
-                sprintMode |= false;
+            if (Input.GetKeyDown(KeyCode.LeftShift) && verticalMove > 0 && cansprint && !sprintMode)
+            {
+                sprintMode = true;
+            }
+            else if (verticalMove <= 0 || (Input.GetKeyDown(KeyCode.LeftShift) && sprintMode))
+            {
+                sprintMode = false;
+            }
         }
 
         if (!sprintMode)
             temp.x = verticalMove * speed;
 
         if (sprintMode)
+        {
             temp.x = verticalMove * speed * sprintMultiplier;
-
+        }
 
         {
 
@@ -117,6 +141,7 @@ public class PlayerController : MonoBehaviour
             temp.y = jumpHeight;
 
         GGravity.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+
     }
 
     private void OnTriggerEnter(UnityEngine.Collider collision)
@@ -139,14 +164,12 @@ public class PlayerController : MonoBehaviour
             switch (collision.gameObject.name)
             {
                 case "weapon1":
-                    weaponID = -1;
+                    weaponID = 0;
                     fireMode = 0;
-                    fireRate = 0;
-                    maxAmmo = 0;
-                    currentAmmo = 0;
-                    reloadAmt = 0;
-                    currentClip = 0;
-                    clipSize = 0;
+                    fireRate = 0.5f;
+                    maxAmmo = 10;
+                    currentAmmo = 10;
+                    reloadAmt = 10;
                     break;
 
                 default:
@@ -154,7 +177,7 @@ public class PlayerController : MonoBehaviour
             }
         }
             if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "Ammo")
-            {
+        {
                 currentAmmo += reloadAmt;
                 if (currentAmmo > maxAmmo)
                     currentAmmo = maxAmmo;
@@ -164,38 +187,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void reloadClip()
-    {
-        if (currentClip >= clipSize)
-            return;
-
-        else
-        {
-            float reloadCount = clipSize - currentClip;
-
-            if (currentAmmo < reloadCount)
-            {
-                currentClip += currentAmmo;
-
-                currentAmmo = 0;
-                return;
-            }
-
-            else
-            {
-                currentClip += reloadCount;
-
-                currentAmmo -= reloadCount;
-                return;
-            }
-        }
-    }
+   
       
 
 
-    IEnumerable Cooldown()
+    IEnumerator Cooldown()
     {
+        
         yield return new WaitForSeconds(fireRate);
         canfire = true;
+
     }
 }

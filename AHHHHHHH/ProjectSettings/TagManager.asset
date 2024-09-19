@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Healitem
   - weapon
+  - bullet
+  - -H
+  - Ammo
   layers:
   - Default
   - TransparentFX

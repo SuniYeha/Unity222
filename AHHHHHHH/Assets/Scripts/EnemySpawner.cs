@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public Transform[] EnemySpawns;
+    public Transform EnemySpawn;
     
     [Header("Waves")]
     public int WaveNumber = 0;
@@ -13,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("Enemies")]
     public bool canSpawn = false;
     public float BaseEnemies = 4;
-    public float MaxEnemies = 0;
+    public float QueueEnemies = 0;
     public float CurrentEnemies = 0;
     public float EnemySpeed = 3;
     public GameObject Enemy;
@@ -21,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         WaveNumber += AddWave;
+        QueueEnemies = 4;
         print(WaveNumber);
         StartCoroutine("SpawnRate");
     }
@@ -28,16 +30,16 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MaxEnemies = (BaseEnemies * WaveNumber);
 
-        if (CurrentEnemies < MaxEnemies && canSpawn)
+        if (0 < QueueEnemies && canSpawn)
         {
             Transform selectedSpawner = EnemySpawns[Random.Range(0, 4)];
 
 
             GameObject e = Instantiate(Enemy, selectedSpawner.position, selectedSpawner.rotation);
+            e.transform.SetParent(EnemySpawn);
             CurrentEnemies += 1;
-            MaxEnemies -= 1;
+            QueueEnemies -= 1;
             canSpawn = false;
             StartCoroutine("SpawnRate");
         }

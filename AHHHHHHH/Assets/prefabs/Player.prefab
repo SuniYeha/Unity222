@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5410856453807653490}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -158,19 +158,22 @@ MonoBehaviour:
   bullet: {fileID: 0}
   weaponID: -1
   fireMode: 0
+  bulletLifespan: 0.5
   BulletSpeed: 1500
   fireRate: 0.5
   maxAmmo: 10
   currentAmmo: 10
   reloadAmt: 5
-  currentClip: 5
-  clipSize: 5
   canfire: 1
   speed: 10
   sprintMultiplier: 2.5
   sprintMode: 0
   jumpHeight: 5
   groundDetectDistance: 1
+  stamina: 100
+  maxstamina: 100
+  cansprint: 1
+  sprintCD: 2
   sprintToggleOption: 0
   mouseSensitivity: 2
   Xsensitivity: 2

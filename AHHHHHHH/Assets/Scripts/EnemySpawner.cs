@@ -21,10 +21,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        WaveNumber += AddWave;
-        QueueEnemies = 4;
         print(WaveNumber);
-        StartCoroutine("SpawnRate");
     }
 
     // Update is called once per frame
@@ -40,6 +37,13 @@ public class EnemySpawner : MonoBehaviour
             e.transform.SetParent(EnemySpawn);
             CurrentEnemies += 1;
             QueueEnemies -= 1;
+            canSpawn = false;
+            StartCoroutine("SpawnRate");
+        }
+        if (QueueEnemies <= 0 && CurrentEnemies <= 0)
+        {
+            WaveNumber += 1;
+            QueueEnemies = BaseEnemies + WaveNumber;
             canSpawn = false;
             StartCoroutine("SpawnRate");
         }

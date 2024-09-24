@@ -44,10 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8e6184b91d51e44a77d8b2e9dfa2cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemySpawns:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  EnemySpawn: {fileID: 4731409636520235870}
   WaveNumber: 0
   AddWave: 1
   spawnRate: 5
+  canSpawn: 0
   BaseEnemies: 4
-  MaxEnemies: 0
+  QueueEnemies: 0
   CurrentEnemies: 0
   EnemySpeed: 3
+  Enemy: {fileID: 5780200032767285921, guid: c9428fc93de9ea3498ad70744ac3746d, type: 3}

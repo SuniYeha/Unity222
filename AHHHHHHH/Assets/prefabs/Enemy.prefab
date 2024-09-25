@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hesl: 2
+  chaseRange: 20
   pushBackForce: 100
   Heal: {fileID: 7644124553928806153, guid: 7a8ece1199b2b0f449c4573ba85ae219, type: 3}
   Ammo: {fileID: 2055072001800666336, guid: 3265f0de87813394c87619fb7e56ce87, type: 3}
@@ -129,7 +130,7 @@ MonoBehaviour:
   spawner: {fileID: 6946750053345745659, guid: 957aedc7b44c56b449e1423c6fdcbb16, type: 3}
   player: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
   agent: {fileID: 0}
-  inchase: 1
+  inchase: 0
   hitCD: 3
   canHit: 1
 --- !u!195 &2563715694561858844

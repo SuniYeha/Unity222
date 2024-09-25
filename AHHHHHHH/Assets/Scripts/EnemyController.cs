@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
 {
 
     public float hesl = 2;
+    public float chaseRange = 20;
     public float pushBackForce = 100;
     public GameObject Heal;
     public GameObject Ammo;
@@ -44,12 +45,16 @@ public class EnemyController : MonoBehaviour
             }
         EnemyController.Destroy(gameObject);
         }
+        if (Physics.Raycast(player.transform.position, -player.transform.position, chaseRange))
+            inchase = true;
+        else
+            inchase = false;
         if (inchase == true)
             agent.destination = player.transform.position;
     }
     private void OnDestroy()
     {
-        spawner.CurrentEnemies -= 1;
+        spawner.CurrentEnemies += -1;
     }
     private void OnTriggerEnter(UnityEngine.Collider collision)
     {
@@ -63,8 +68,10 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && canHit == true)
         {
+            player.GetComponent<Rigidbody>().AddForce(player.transform.forward * 100);
             player.health -= 1;
             canHit = false;
+            inchase = false;
             print(player.health);
             StartCoroutine("Cooldown");
 

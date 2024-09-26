@@ -824,13 +824,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735429871}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -30, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &845001724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,13 +1036,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184642712}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 30, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1210111859
 GameObject:
   m_ObjectHideFlags: 0
@@ -1561,13 +1561,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2058492816}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 2.5, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &1912792664733332580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1580,40 +1580,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3774925208961646825, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
       propertyPath: speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: bullet
-      value: 
-      objectReference: {fileID: 5336929048292982122, guid: 3d660c7c3ef4149458ff8fef4b9a2742, type: 3}
-    - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: maxAmmo
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: clipSize
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: fireRate
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: reloadAmt
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: currentAmmo
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
-      propertyPath: currentClip
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}

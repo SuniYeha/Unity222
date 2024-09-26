@@ -22,8 +22,10 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spawner = GameObject.Find("EnemySpawn").GetComponent<EnemySpawner>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         agent = GetComponent<NavMeshAgent>();
+        agent.destination = player.transform.position;
     }
 
     // Update is called once per frame
@@ -31,7 +33,7 @@ public class EnemyController : MonoBehaviour
     {
         if (hesl <= 0)
         {
-           
+
             if (Random.Range(0, 2) == 1)
             {
                 if (Random.Range(0, 2) == 1)
@@ -43,18 +45,23 @@ public class EnemyController : MonoBehaviour
                     GameObject R = Instantiate(Ammo, Enemy.position, Enemy.rotation);
                 }
             }
-        EnemyController.Destroy(gameObject);
+            Destroy(gameObject);
         }
-        if (Physics.Raycast(player.transform.position, -player.transform.position, chaseRange))
-            inchase = true;
+
         else
-            inchase = false;
-        if (inchase == true)
-            agent.destination = player.transform.position;
+        {
+            if (inchase)
+            {
+                agent.isStopped = false;
+                agent.destination = player.transform.position;
+            }
+            if (!inchase)
+                agent.isStopped = true;
+        }
     }
     private void OnDestroy()
     {
-        spawner.CurrentEnemies += -1;
+        spawner.CurrentEnemies--;
     }
     private void OnTriggerEnter(UnityEngine.Collider collision)
     {

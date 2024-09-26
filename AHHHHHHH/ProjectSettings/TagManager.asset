@@ -9,6 +9,7 @@ TagManager:
   - bullet
   - -H
   - Ammo
+  - DetectRadius
   layers:
   - Default
   - TransparentFX

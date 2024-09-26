@@ -155,7 +155,7 @@ MonoBehaviour:
   maxHealth: 5
   health: 3
   Heal: 1
-  bullet: {fileID: 0}
+  bullet: {fileID: 5336929048292982122, guid: 3d660c7c3ef4149458ff8fef4b9a2742, type: 3}
   weaponID: -1
   fireMode: 0
   bulletLifespan: 0.5
@@ -165,8 +165,8 @@ MonoBehaviour:
   currentAmmo: 10
   reloadAmt: 5
   canfire: 1
-  speed: 10
-  sprintMultiplier: 2.5
+  speed: 5
+  sprintMultiplier: 1.5
   sprintMode: 0
   jumpHeight: 5
   groundDetectDistance: 1
@@ -174,7 +174,7 @@ MonoBehaviour:
   maxstamina: 100
   cansprint: 1
   sprintCD: 2
-  sprintToggleOption: 0
+  sprintToggleOption: 1
   mouseSensitivity: 2
   Xsensitivity: 2
   Ysensitivity: 2

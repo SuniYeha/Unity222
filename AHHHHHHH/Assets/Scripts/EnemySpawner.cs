@@ -13,9 +13,9 @@ public class EnemySpawner : MonoBehaviour
     public float spawnRate = 5f;
     [Header("Enemies")]
     public bool canSpawn = false;
-    public float BaseEnemies = 4;
-    public float QueueEnemies = 0;
-    public float CurrentEnemies = 0;
+    public int BaseEnemies = 4;
+    public int QueueEnemies = 0;
+    public int CurrentEnemies = 0;
     public float EnemySpeed = 3;
     public GameObject Enemy;
     // Start is called before the first frame update
@@ -35,8 +35,8 @@ public class EnemySpawner : MonoBehaviour
 
             GameObject e = Instantiate(Enemy, selectedSpawner.position, selectedSpawner.rotation);
             e.transform.SetParent(EnemySpawn);
-            CurrentEnemies += 1;
-            QueueEnemies -= 1;
+            CurrentEnemies++;
+            QueueEnemies--;
             canSpawn = false;
             StartCoroutine("SpawnRate");
         }

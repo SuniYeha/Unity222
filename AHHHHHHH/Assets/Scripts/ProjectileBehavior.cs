@@ -17,9 +17,9 @@ public class ProjectileBehavior : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "weapon")
-            return;
-        else
+      if (other.gameObject.tag != "weapon" && other.gameObject.tag != "DetectRadius")
+        {
             ProjectileBehavior.Destroy(gameObject);
+        }
     }
 }

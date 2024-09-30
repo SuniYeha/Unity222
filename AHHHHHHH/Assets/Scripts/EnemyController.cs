@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
 
-    public float hesl = 2;
+    public int hesl = 2;
     public float chaseRange = 20;
     public float pushBackForce = 100;
     public GameObject Heal;

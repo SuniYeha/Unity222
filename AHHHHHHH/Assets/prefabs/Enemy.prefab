@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6928006815064968988}
   - component: {fileID: 593404466301626549}
   - component: {fileID: 2246959594195908366}
-  - component: {fileID: 2113338640316621997}
+  - component: {fileID: 7956519264921235970}
   m_Layer: 0
   m_Name: afterdetect
   m_TagString: DetectRadius
@@ -108,7 +108,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2113338640316621997
+--- !u!114 &7956519264921235970
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

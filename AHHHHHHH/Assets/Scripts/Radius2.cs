@@ -19,7 +19,7 @@ public class Radius2 : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && player.sprintMode)
+        if (other.gameObject.tag == "Player" && Enemy.hesl < 2)
             Enemy.inchase = true;
     }
     private void OnTriggerExit(Collider other)

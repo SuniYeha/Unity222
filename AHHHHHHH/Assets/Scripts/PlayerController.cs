@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody GGravity;
     Camera playerCam;
     public Transform weaponSlot;
+    public GameManager gm;
 
     Vector2 camRotation;
 
@@ -26,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public float currentAmmo = 10;
     public float reloadAmt = 5;
     public bool canfire = true;
+    public float BAM = 7;
 
     [Header("Movement Settings")]
     public float speed = 5.0f;
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         GGravity = GetComponent<Rigidbody>();
         playerCam = transform.GetChild(0).GetComponent<Camera>();
 
@@ -61,86 +65,89 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
-        camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-
-        camRotation.y = Mathf.Clamp(camRotation.y, -camRotationLimit, camRotationLimit);
-
-        playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
-        transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
-
-        if (weaponID >= 0 && Input.GetMouseButton(0) && canfire && currentAmmo > 0)
+        if (!gm.IsPaused)
         {
-            GameObject b = Instantiate(bullet, weaponSlot.position, weaponSlot.rotation);
-            b.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * BulletSpeed);
-            Destroy(b,bulletLifespan);
-            canfire = false;
-            currentAmmo--;
-            StartCoroutine("Cooldown");
-            if (currentAmmo <= 0)
+            camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
+            camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+
+            camRotation.y = Mathf.Clamp(camRotation.y, -camRotationLimit, camRotationLimit);
+
+            playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
+            transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
+
+            if (weaponID >= 0 && Input.GetMouseButton(0) && canfire && currentAmmo > 0)
             {
-                print(currentAmmo);
+                GameObject b = Instantiate(bullet, weaponSlot.position, weaponSlot.rotation);
+                b.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * BulletSpeed);
+                Destroy(b, bulletLifespan);
+                canfire = false;
+                currentAmmo--;
+                StartCoroutine("Cooldown");
+                if (currentAmmo <= 0)
+                {
+                    print(currentAmmo);
+                }
             }
-        }
 
 
-        Vector3 temp = GGravity.velocity;
+            Vector3 temp = GGravity.velocity;
 
-        float verticalMove = Input.GetAxisRaw("Vertical");
-        float horizontalMove = Input.GetAxisRaw("Horizontal");
+            float verticalMove = Input.GetAxisRaw("Vertical");
+            float horizontalMove = Input.GetAxisRaw("Horizontal");
 
 
-        if (stamina <= 0)
-        {
-            sprintMode = false;
-            cansprint = false;
-        }
-        if (stamina > maxstamina)
-            stamina = maxstamina;
-
-        if (!sprintToggleOption)
-        {
-            if (Input.GetKey(KeyCode.LeftShift) && cansprint)
-                sprintMode = true;
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-                sprintMode = false;
-        }
-
-        if (sprintToggleOption)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && verticalMove > 0 && cansprint && !sprintMode)
-            {
-                sprintMode = true;
-            }
-            else if (verticalMove <= 0 || (Input.GetKeyDown(KeyCode.LeftShift) && sprintMode))
+            if (stamina <= 0)
             {
                 sprintMode = false;
+                cansprint = false;
             }
+            if (stamina > maxstamina)
+                stamina = maxstamina;
+
+            if (!sprintToggleOption)
+            {
+                if (Input.GetKey(KeyCode.LeftShift) && cansprint)
+                    sprintMode = true;
+                if (Input.GetKeyUp(KeyCode.LeftShift))
+                    sprintMode = false;
+            }
+
+            if (sprintToggleOption)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftShift) && verticalMove > 0 && cansprint && !sprintMode)
+                {
+                    sprintMode = true;
+                }
+                else if (verticalMove <= 0 || (Input.GetKeyDown(KeyCode.LeftShift) && sprintMode))
+                {
+                    sprintMode = false;
+                }
+            }
+
+            if (!sprintMode)
+                temp.x = verticalMove * speed;
+
+            if (sprintMode)
+            {
+                temp.x = verticalMove * speed * sprintMultiplier;
+            }
+
+            {
+
+            }
+
+            temp.z = horizontalMove * speed;
+
+            GGravity.velocity = (temp.x * transform.forward) + (temp.z * transform.right);
+
+            if (Input.GetKey(KeyCode.LeftShift))
+                temp.x *= sprintMultiplier;
+
+            if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, groundDetectDistance))
+                temp.y = jumpHeight;
+
+            GGravity.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
         }
-
-        if (!sprintMode)
-            temp.x = verticalMove * speed;
-
-        if (sprintMode)
-        {
-            temp.x = verticalMove * speed * sprintMultiplier;
-        }
-
-        {
-
-        }
-
-        temp.z = horizontalMove * speed;
-
-        GGravity.velocity = (temp.x * transform.forward) + (temp.z * transform.right);
-
-        if (Input.GetKey(KeyCode.LeftShift))
-            temp.x *= sprintMultiplier;
-
-        if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, -transform.up, groundDetectDistance))
-            temp.y = jumpHeight;
-
-        GGravity.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
 
     }
 
@@ -155,9 +162,26 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
             print(health);
         }
-        if (collision.gameObject.tag == "weapon")
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+       if (collision.gameObject.tag == "weapon")
         {
+            if (weaponID >= 0)
+            {
+                weaponSlot.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
+                //Move weaponSlot.GetChild(0) forward a lot of units
+                weaponSlot.GetChild(0).transform.forward = transform.forward * BAM;
+                    //fuvk my life bruh
+                weaponSlot.GetChild(0).SetParent(null);
+            }
+
+            collision.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
             collision.gameObject.transform.position = weaponSlot.position;
+            collision.gameObject.transform.rotation = weaponSlot.rotation;
 
             collision.gameObject.transform.SetParent(weaponSlot);
 
@@ -172,23 +196,25 @@ public class PlayerController : MonoBehaviour
                     reloadAmt = 10;
                     break;
 
+                case "weapon2":
+
+                    break;
+
                 default:
                     break;
             }
         }
-            if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "Ammo")
+        if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "Ammo")
         {
-                currentAmmo += reloadAmt;
-                if (currentAmmo > maxAmmo)
-                    currentAmmo = maxAmmo;
+            currentAmmo += reloadAmt;
+            if (currentAmmo > maxAmmo)
+                currentAmmo = maxAmmo;
 
-                Destroy(collision.gameObject);
-                print(currentAmmo);
+            Destroy(collision.gameObject);
+            print(currentAmmo);
         }
     }
 
-   
-      
 
 
     IEnumerator Cooldown()

@@ -23,35 +23,38 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerData.weaponID < 0)
+        if (SceneManager.GetActiveScene().buildIndex > 0)
         {
-            BulletCountText.gameObject.SetActive(false);
-        }
-        else
-        {
-            BulletCountText.gameObject.SetActive(true);
-        }
-
-        healthBar.fillAmount = (float) playerData.health / (float) playerData.maxHealth;
-        BulletCountText.text = "Bullets: " + playerData.currentAmmo + "/" + playerData.maxAmmo;
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!IsPaused)
+            if (playerData.weaponID < 0)
             {
-                PauseMenu.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-
-                Time.timeScale = 0;
-
-                IsPaused = true;
+                BulletCountText.gameObject.SetActive(false);
             }
             else
             {
-                Resume();
+                BulletCountText.gameObject.SetActive(true);
             }
-                
+
+            healthBar.fillAmount = (float)playerData.health / (float)playerData.maxHealth;
+            BulletCountText.text = "Bullets: " + playerData.currentAmmo + "/" + playerData.maxAmmo;
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (!IsPaused)
+                {
+                    PauseMenu.SetActive(true);
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+
+                    Time.timeScale = 0;
+
+                    IsPaused = true;
+                }
+                else
+                {
+                    Resume();
+                }
+
+            }
         }
     }
     public void Resume()

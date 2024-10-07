@@ -8,8 +8,10 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public bool IsPaused = false;
+    public bool dead = false;
 
     public GameObject PauseMenu;
+    public GameObject DeathScreen;
     public PlayerController playerData;
 
     public Image healthBar;
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
             healthBar.fillAmount = (float)playerData.health / (float)playerData.maxHealth;
             BulletCountText.text = "Bullets: " + playerData.currentAmmo + "/" + playerData.maxAmmo;
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) & (dead == false))
             {
                 if (!IsPaused)
                 {
@@ -55,6 +57,18 @@ public class GameManager : MonoBehaviour
                 }
 
             }
+            if (playerData.health <= 0)
+            {
+                dead = true;
+                DeathScreen.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                playerData.canfire = false;
+                Time.timeScale = 0;
+
+            }
+            if (!dead)
+                DeathScreen.SetActive(false);
         }
     }
     public void Resume()
@@ -73,8 +87,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        Time.timeScale = 1;
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
     }
 
     public void LoadLevel(int level)

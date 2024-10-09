@@ -24,7 +24,7 @@ public class Radius2 : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player") 
+        if (other.gameObject.tag == "Player" && Enemy.hesl == 2) 
             Enemy.inchase = false;
     }
 }

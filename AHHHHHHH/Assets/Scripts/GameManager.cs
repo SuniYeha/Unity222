@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex > 0)
         {
-            if (playerData.weaponID < 0)
+            if (playerData.weaponID < 1)
             {
                 BulletCountText.gameObject.SetActive(false);
             }

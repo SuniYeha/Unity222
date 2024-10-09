@@ -377,7 +377,7 @@ MonoBehaviour:
   player: {fileID: 5410856453807653490, guid: c04f7339f8197f34da20479540e4de54, type: 3}
   agent: {fileID: 0}
   inchase: 0
-  hitCD: 3
+  hitCD: 2
   canHit: 1
 --- !u!195 &2563715694561858844
 NavMeshAgent:

@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
     public PlayerController player;
     public NavMeshAgent agent;
     public bool inchase = false;
-    public float hitCD = 3f;
+    public float hitCD = 2f;
     public bool canHit = true;
 
     // Start is called before the first frame update
@@ -25,7 +25,6 @@ public class EnemyController : MonoBehaviour
         spawner = GameObject.Find("EnemySpawn").GetComponent<EnemySpawner>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         agent = GetComponent<NavMeshAgent>();
-        agent.destination = player.transform.position;
     }
 
     // Update is called once per frame
@@ -68,6 +67,7 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.tag == "bullet")
         {
             hesl -= 1;
+            Destroy(collision.gameObject);
         }
 
     }

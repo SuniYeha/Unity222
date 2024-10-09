@@ -18,10 +18,13 @@ public class PlayerController : MonoBehaviour
     public int Heal = 1;
 
     [Header("Weapon Stats")]
+    public GameObject fists;
+    public GameObject boxthathits;
+    public Transform panefhc;
     public GameObject bullet;
     public int weaponID = -1;
     public int fireMode = 0;
-    public float bulletLifespan = .5f;
+    public float bulletLifespan = .2f;
     public float BulletSpeed = 1500f;
     public float fireRate = .5f;
     public float maxAmmo = 10;
@@ -59,7 +62,6 @@ public class PlayerController : MonoBehaviour
         camRotation = Vector2.zero;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        print(health);
     }
 
     // Update is called once per frame
@@ -74,20 +76,6 @@ public class PlayerController : MonoBehaviour
 
             playerCam.transform.localRotation = Quaternion.AngleAxis(camRotation.y, Vector3.left);
             transform.localRotation = Quaternion.AngleAxis(camRotation.x, Vector3.up);
-
-            if (weaponID >= 0 && Input.GetMouseButton(0) && canfire && currentAmmo > 0)
-            {
-                GameObject b = Instantiate(bullet, weaponSlot.position, weaponSlot.rotation);
-                b.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * BulletSpeed);
-                Destroy(b, bulletLifespan);
-                canfire = false;
-                currentAmmo--;
-                StartCoroutine("Cooldown");
-                if (currentAmmo <= 0)
-                {
-                    print(currentAmmo);
-                }
-            }
 
 
             Vector3 temp = GGravity.velocity;
@@ -147,6 +135,47 @@ public class PlayerController : MonoBehaviour
                 temp.y = jumpHeight;
 
             GGravity.velocity = (temp.x * transform.forward) + (temp.z * transform.right) + (temp.y * transform.up);
+
+            //punch system and stfff be here
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                if (weaponID == 0) 
+                { 
+                    fists.SetActive(false);
+                    weaponID = -1;
+                }
+                else if (weaponID >= 1)
+                {
+                    weaponSlot.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
+                    weaponSlot.GetChild(0).SetParent(null);
+                    fists.SetActive(true);
+                    weaponID = 0;
+                }
+                else
+                {
+                    fists.SetActive(true);
+                    weaponID = 0;
+                }
+            }
+            if (weaponID >= 0 && Input.GetMouseButton(0) && canfire)
+            {
+                if (weaponID == 0)
+                {
+                    GameObject hb = Instantiate(boxthathits, panefhc.position, panefhc.rotation);
+                    hb.transform.SetParent(panefhc);
+                    Destroy(hb, bulletLifespan);
+                    canfire = false;
+                    StartCoroutine("Cooldown");
+                }
+                if (weaponID >= 1 && currentAmmo > 0)
+                {
+                    GameObject b = Instantiate(bullet, weaponSlot.position, weaponSlot.rotation);
+                    b.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * BulletSpeed);
+                    canfire = false;
+                    currentAmmo--;
+                    StartCoroutine("Cooldown");
+                }
+            }
         }
 
     }
@@ -160,7 +189,14 @@ public class PlayerController : MonoBehaviour
                 health = maxHealth;
 
             Destroy(collision.gameObject);
-            print(health);
+        }
+        if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "Ammo")
+        {
+            currentAmmo += reloadAmt;
+            if (currentAmmo > maxAmmo)
+                currentAmmo = maxAmmo;
+
+            Destroy(collision.gameObject);
         }
     }
 
@@ -169,13 +205,15 @@ public class PlayerController : MonoBehaviour
         
        if (collision.gameObject.tag == "weapon")
         {
-            if (weaponID >= 0)
+            if (weaponID >= 1)
             {
                 weaponSlot.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
-                //Move weaponSlot.GetChild(0) forward a lot of units
-                weaponSlot.GetChild(0).transform.forward = transform.forward * BAM;
                     //fuvk my life bruh
                 weaponSlot.GetChild(0).SetParent(null);
+            }
+            if (weaponID == 0)
+            {
+                fists.SetActive(false);
             }
 
             collision.gameObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -188,7 +226,7 @@ public class PlayerController : MonoBehaviour
             switch (collision.gameObject.name)
             {
                 case "weapon1":
-                    weaponID = 0;
+                    weaponID = 1;
                     fireMode = 0;
                     fireRate = 0.5f;
                     maxAmmo = 10;
@@ -197,22 +235,22 @@ public class PlayerController : MonoBehaviour
                     break;
 
                 case "weapon2":
-
+                    weaponID = 2;
+                    fireMode = 0;
+                    fireRate = 0.5f;
+                    maxAmmo = 100; 
+                    currentAmmo = 100;
+                    reloadAmt = 100;
                     break;
+
+
+                    
 
                 default:
                     break;
             }
         }
-        if ((currentAmmo < maxAmmo) && collision.gameObject.tag == "Ammo")
-        {
-            currentAmmo += reloadAmt;
-            if (currentAmmo > maxAmmo)
-                currentAmmo = maxAmmo;
-
-            Destroy(collision.gameObject);
-            print(currentAmmo);
-        }
+      
     }
 
 

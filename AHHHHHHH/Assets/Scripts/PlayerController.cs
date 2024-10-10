@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
             if (weaponID >= 1)
             {
                 weaponSlot.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
-                    //fuvk my life bruh
+                //fuvk my life bruh
                 weaponSlot.GetChild(0).SetParent(null);
             }
             if (weaponID == 0)
@@ -230,8 +230,9 @@ public class PlayerController : MonoBehaviour
                     fireMode = 0;
                     fireRate = 0.5f;
                     maxAmmo = 10;
-                    currentAmmo = 10;
                     reloadAmt = 10;
+                    if (currentAmmo > maxAmmo)
+                        currentAmmo = maxAmmo;
                     break;
 
                 case "weapon2":

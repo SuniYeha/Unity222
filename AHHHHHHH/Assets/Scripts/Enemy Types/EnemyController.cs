@@ -58,6 +58,7 @@ public class EnemyController : MonoBehaviour
                 agent.isStopped = true;
         }
     }
+    // endless only
     private void OnDestroy()
     {
         spawner.CurrentEnemies--;

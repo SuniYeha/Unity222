@@ -80,7 +80,6 @@ public class EnemyController : MonoBehaviour
             player.health -= 1;
             canHit = false;
             inchase = false;
-            print(player.health);
             StartCoroutine("Cooldown");
 
         }

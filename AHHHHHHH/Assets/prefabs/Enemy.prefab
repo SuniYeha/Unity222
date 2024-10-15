@@ -370,7 +370,7 @@ MonoBehaviour:
   hesl: 2
   chaseRange: 20
   pushBackForce: 100
-  Heal: {fileID: 7644124553928806153, guid: 7a8ece1199b2b0f449c4573ba85ae219, type: 3}
+  Heal: {fileID: 61423185129715525, guid: 7a8ece1199b2b0f449c4573ba85ae219, type: 3}
   Ammo: {fileID: 2055072001800666336, guid: 3265f0de87813394c87619fb7e56ce87, type: 3}
   Enemy: {fileID: 8941329273714038833}
   spawner: {fileID: 6946750053345745659, guid: 957aedc7b44c56b449e1423c6fdcbb16, type: 3}

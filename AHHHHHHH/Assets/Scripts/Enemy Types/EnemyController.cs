@@ -16,12 +16,17 @@ public class EnemyController : MonoBehaviour
     public PlayerController player;
     public NavMeshAgent agent;
     public bool inchase = false;
-    public float hitCD = 2f;
+    public float hitCD = 1.5f;
     public bool canHit = true;
+    public AudioSource enemySpeaker;
+    public AudioClip death;
+    public AudioClip ow;
 
     // Start is called before the first frame update
     void Start()
     {
+        enemySpeaker = GetComponent<AudioSource>();
+        enemySpeaker.resource = ow;
         spawner = GameObject.Find("EnemySpawn").GetComponent<EnemySpawner>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         agent = GetComponent<NavMeshAgent>();
@@ -32,19 +37,13 @@ public class EnemyController : MonoBehaviour
     {
         if (hesl <= 0)
         {
-
-            if (Random.Range(0, 2) == 1)
+            enemySpeaker.resource = death;
+            if (!enemySpeaker.isPlaying)
             {
-                if (Random.Range(0, 2) == 1)
-                {
-                    GameObject H = Instantiate(Heal, Enemy.position, Enemy.rotation);
-                }
-                else
-                {
-                    GameObject R = Instantiate(Ammo, Enemy.position, Enemy.rotation);
-                }
+                enemySpeaker.Play();
             }
-            Destroy(gameObject);
+            agent.isStopped = true;
+            StartCoroutine("Dying");
         }
 
         else
@@ -67,8 +66,10 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.tag == "bullet")
         {
+            enemySpeaker.Play();
             hesl -= 1;
             Destroy(collision.gameObject);
+            inchase = true;
         }
 
     }
@@ -89,5 +90,21 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(hitCD);
         canHit = true;
     }
+    IEnumerator Dying()
+    { 
+        yield return new WaitForSeconds(hitCD);
+        if (Random.Range(0, 2) == 1)
+        {
+            if (Random.Range(0, 2) == 1)
+            {
+                GameObject H = Instantiate(Heal, Enemy.position, Enemy.rotation);
+            }
+            else
+            {
+                GameObject R = Instantiate(Ammo, Enemy.position, Enemy.rotation);
+            }
+        }
+        EnemyController.Destroy(gameObject);
 
+    }
 }

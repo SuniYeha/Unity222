@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2538567641420879674}
   - component: {fileID: 7214812435597037814}
   - component: {fileID: 5617121748477476987}
-  - component: {fileID: 5410856453807653490}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -139,46 +138,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &5410856453807653490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3774925208961646825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51a199ecaec56cb49a59ad09394e07d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponSlot: {fileID: 8068934911985323942}
-  maxHealth: 5
-  health: 3
-  Heal: 1
-  bullet: {fileID: 5336929048292982122, guid: 3d660c7c3ef4149458ff8fef4b9a2742, type: 3}
-  weaponID: -1
-  fireMode: 0
-  bulletLifespan: 0.5
-  BulletSpeed: 1500
-  fireRate: 0.5
-  maxAmmo: 10
-  currentAmmo: 10
-  reloadAmt: 5
-  canfire: 1
-  speed: 5
-  sprintMultiplier: 1.5
-  sprintMode: 0
-  jumpHeight: 5
-  groundDetectDistance: 1
-  stamina: 100
-  maxstamina: 100
-  cansprint: 1
-  sprintCD: 2
-  sprintToggleOption: 1
-  mouseSensitivity: 2
-  Xsensitivity: 2
-  Ysensitivity: 2
-  camRotationLimit: 90
 --- !u!1 &3963124477066549962
 GameObject:
   m_ObjectHideFlags: 0

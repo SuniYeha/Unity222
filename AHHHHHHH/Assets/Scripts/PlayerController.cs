@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody GGravity;
     Camera playerCam;
     public Transform weaponSlot;
+    public AudioSource weaponSpeaker;
+    public AudioClip pyu;
+    public AudioClip pyu2;
     public GameManager gm;
 
     Vector2 camRotation;
@@ -169,6 +172,15 @@ public class PlayerController : MonoBehaviour
                 }
                 if (weaponID >= 1 && currentAmmo > 0)
                 {
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        weaponSpeaker.clip = pyu;
+                    }
+                    else
+                    {
+                        weaponSpeaker.clip = pyu2;
+                    }
+                    weaponSpeaker.Play();
                     GameObject b = Instantiate(bullet, weaponSlot.position, weaponSlot.rotation);
                     b.GetComponent<Rigidbody>().AddForce(playerCam.transform.forward * BulletSpeed);
                     canfire = false;
@@ -222,6 +234,8 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.transform.rotation = weaponSlot.rotation;
 
             collision.gameObject.transform.SetParent(weaponSlot);
+
+            weaponSpeaker = collision.gameObject.GetComponent<AudioSource>();
 
             switch (collision.gameObject.name)
             {

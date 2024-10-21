@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip pyu;
     public AudioClip pyu2;
     public GameManager gm;
+    public GameObject tut;
 
     Vector2 camRotation;
 
@@ -72,6 +73,10 @@ public class PlayerController : MonoBehaviour
     {
         if (!gm.IsPaused)
         {
+            if (weaponID >= 0)
+            {
+                Destroy(tut.gameObject);
+            }
             camRotation.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
             camRotation.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
 

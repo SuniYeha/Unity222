@@ -3576,6 +3576,7 @@ MonoBehaviour:
   pyu: {fileID: 8300000, guid: f1b1764c896b64248bc05704df5b27de, type: 3}
   pyu2: {fileID: 8300000, guid: 2aa64e6b2ba59cd4483e555c5e06bcce, type: 3}
   gm: {fileID: 1784260180}
+  tut: {fileID: 2011202090}
   maxHealth: 5
   health: 3
   Heal: 1

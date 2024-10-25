@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (0 < QueueEnemies && canSpawn)
         {
-            Transform selectedSpawner = EnemySpawns[Random.Range(0, 4)];
+            Transform selectedSpawner = EnemySpawns[Random.Range(0, 7)];
 
 
             GameObject e = Instantiate(Enemy, selectedSpawner.position, selectedSpawner.rotation);

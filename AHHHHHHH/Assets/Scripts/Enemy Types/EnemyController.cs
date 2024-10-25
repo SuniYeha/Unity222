@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     public GameObject Ammo;
     public Transform Enemy;
     public EnemySpawner spawner;
+    public Objective Objective;
     public PlayerController player;
     public NavMeshAgent agent;
     public bool inchase = false;
@@ -61,6 +62,7 @@ public class EnemyController : MonoBehaviour
     private void OnDestroy()
     {
         spawner.CurrentEnemies--;
+        Objective.enemies--;
     }
     private void OnTriggerEnter(UnityEngine.Collider collision)
     {
@@ -93,7 +95,7 @@ public class EnemyController : MonoBehaviour
     IEnumerator Dying()
     { 
         yield return new WaitForSeconds(hitCD);
-        if (Random.Range(0, 2) == 1)
+        if (Random.Range(0, 4) == 1)
         {
             if (Random.Range(0, 2) == 1)
             {
